@@ -26,5 +26,5 @@ if __name__ == "__main__":
             df.iloc[i,win_i] = round_winner[df.iloc[i,win_i]]
             df.iloc[i, bomb_plant_i] = int(df.iloc[i,bomb_plant_i])
     with open("csgo_clean.csv", "w") as f:
-        df.to_csv(f)
+        df.to_csv(f,index=False)
 

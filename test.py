@@ -1,40 +1,17 @@
-import pandas as pd
-from sklearn.neural_network import MLPClassifier
-from dataloader import DataLoader
-from sklearn.neural_network._multilayer_perceptron import *
+from datahandler import get_splits
+from models import *
+from utils import set_seed
 from sklearn.metrics import f1_score
-
-
-def get_features(df,feature_names):
-    features = pd.DataFrame()
-    for name in feature_names:
-            col = df.loc(name)
-            n = features.shape[1]
-            features.insert(n,name,col)
-    return features
-dl = DataLoader()
-dl.load_df_from_path('csgo_clean.csv')
-df = dl.get_full_set()
-features = get_features(df,["round"])
-print(features)
-
-
-def split(X, y, train=0.8):
-    nX = X.shape[0]
-    nY = y.shape[0]
-    train_n = int(0.8 *  n)
-    X = X.values.tolist()
-    y = np.ravel(y.values)
-    trainX = X[:train_n]
-    trainy = y[:train_n]
-    testX = X[train_n:]
-    testy = y[train_n:]
-    return trainX, trainy, testX, testy
-trainX, trainy, testX, testy = split(features,labels)
-print(testy.shape)
-
-#train,val,test= dl.get_split_sets()
-mlp = MLPClassifier()
-mlp.fit(trainX, trainy)
-predy = mlp.predict(testX)
-print(f1_score(testy, predy))
+from tqdm import tqdm
+seeds = range(0,10)
+f1 = []
+for seed in tqdm(seeds):
+    X_train, X_test, y_train, y_test, df = get_splits("./csgo_clean.csv",None,"./features.txt")
+    assert X_train.shape[0] + X_test.shape[0] == df.shape[0] and y_train.shape[0] + y_test.shape[0] == df.shape[0]
+    set_seed(3)
+    lgr = get_lgr()
+    lgr = train(lgr,X_train,y_train)
+    y_pred = lgr.predict(X_test)
+    f1.append(f1_score(y_test,y_pred))
+print(sum(f1)/len(f1))
+    
