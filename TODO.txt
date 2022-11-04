@@ -1,0 +1,4 @@
+1. get K-means clustering discriminator
+2. get naive bayes predictor
+3. plot distribution of predictions
+4. 

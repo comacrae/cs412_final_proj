@@ -1,0 +1,11 @@
+time_left
+bomb_planted
+ct_health
+t_health
+ct_armor
+t_armor
+ct_helmets
+t_helmets
+ct_players_alive
+t_players_alive
+round_winner

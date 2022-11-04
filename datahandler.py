@@ -1,6 +1,5 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import f1_score
 from sklearn.preprocessing import MaxAbsScaler,StandardScaler
 
 def load_df(path):
@@ -21,7 +20,7 @@ def scale(X_train,X_test,use_mas=False):
     X_test = scaler.transform(X_test)
     return X_train, X_test
 
-def get_splits(df_path, features=None,features_path=None,split=[0.8,0.2]):
+def get_splits(df_path, features=None,features_path=None,split=[0.8,0.2],max_abs=False):
     df = load_df(df_path)
     if features_path is not None:
         features = load_feature_list(features_path)
